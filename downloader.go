@@ -16,12 +16,12 @@ type Downloader struct {
 	UserAgent         string
 	Async             bool
 	ID                uint32
-	requestCallbacks  []RequestCallback
-	responseCallbacks []ResponseCallback
-	errorCallbacks    []ErrorCallback
 	client            *http.Client
 	wg                *sync.WaitGroup
 	lock              *sync.RWMutex
+	requestCallbacks  []RequestCallback
+	responseCallbacks []ResponseCallback
+	errorCallbacks    []ErrorCallback
 }
 
 // RequestCallback is a type alias for OnRequest callback functions
@@ -168,8 +168,7 @@ func setRequestBody(req *http.Request, body io.Reader) {
 	}
 }
 
-// OnRequest registers a function. Function will be executed on every
-// request made by the Collector
+// OnRequest
 func (dl *Downloader) OnRequest(f RequestCallback) {
 	dl.lock.Lock()
 	if dl.requestCallbacks == nil {
@@ -179,7 +178,7 @@ func (dl *Downloader) OnRequest(f RequestCallback) {
 	dl.lock.Unlock()
 }
 
-// OnResponse registers a function. Function will be executed on every response
+// OnResponse
 func (dl *Downloader) OnResponse(f ResponseCallback) {
 	dl.lock.Lock()
 	if dl.responseCallbacks == nil {
@@ -189,7 +188,7 @@ func (dl *Downloader) OnResponse(f ResponseCallback) {
 	dl.lock.Unlock()
 }
 
-// OnResponse registers a function. Function will be executed on every response
+// onError
 func (dl *Downloader) OnError(f ErrorCallback) {
 	dl.lock.Lock()
 	if dl.errorCallbacks == nil {
